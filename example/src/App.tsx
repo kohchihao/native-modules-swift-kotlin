@@ -1,7 +1,13 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-native-modules-practice';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import {
+  multiply,
+  simpleMethodReturns,
+  simpleMethodWithObj,
+  simpleMethodWithParams,
+  someKey,
+} from 'react-native-native-modules-practice';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -10,9 +16,38 @@ export default function App() {
     multiply(3, 7).then(setResult);
   }, []);
 
+  const nativeSimpleMethodReturns = () => {
+    simpleMethodReturns((data) => {
+      console.log(data);
+    });
+  };
+
+  const nativeSimpleMethodWithParams = () => {
+    simpleMethodWithParams('hello world', (data) => {
+      console.log(data);
+    });
+  };
+
+  const nativeSimpleMethodWithObj = () => {
+    simpleMethodWithObj({ id: 1, hello: false, bool: true }, (data) => {
+      console.log(data);
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>
+        Result: {result} {someKey}
+      </Text>
+      <Button title="simple return" onPress={nativeSimpleMethodReturns} />
+      <Button
+        title="simple return with params"
+        onPress={nativeSimpleMethodWithParams}
+      />
+      <Button
+        title="simple return with obj"
+        onPress={nativeSimpleMethodWithObj}
+      />
     </View>
   );
 }

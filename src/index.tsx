@@ -20,3 +20,27 @@ const NativeModulesPractice = NativeModules.NativeModulesPractice
 export function multiply(a: number, b: number): Promise<number> {
   return NativeModulesPractice.multiply(a, b);
 }
+
+export function plus(a: number, b: number): Promise<number> {
+  return NativeModulesPractice.plus(a, b);
+}
+
+export function simpleMethodReturns(callback: (data: string) => void) {
+  return NativeModulesPractice.simpleMethodReturns(callback);
+}
+
+export function simpleMethodWithParams(
+  params: string,
+  callback: (data: string) => void
+) {
+  return NativeModulesPractice.simpleMethodWithParams(params, callback);
+}
+
+export function simpleMethodWithObj(
+  params: Record<string, any>,
+  callback: (data: string) => void
+) {
+  return NativeModulesPractice.simpleMethodWithObj(params, callback);
+}
+
+export const someKey = NativeModulesPractice.someKey;
