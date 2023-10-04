@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import {
   multiply,
+  plus,
+  presentCalendar,
   simpleMethodReturns,
   simpleMethodWithObj,
   simpleMethodWithParams,
@@ -11,9 +13,11 @@ import {
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
+  const [plusResult, setPlusResult] = React.useState(0);
 
   React.useEffect(() => {
     multiply(3, 7).then(setResult);
+    plus(2, 10).then(setPlusResult);
   }, []);
 
   const nativeSimpleMethodReturns = () => {
@@ -34,11 +38,16 @@ export default function App() {
     });
   };
 
+  const handleCalendar = () => {
+    presentCalendar();
+  };
+
   return (
     <View style={styles.container}>
       <Text>
         Result: {result} {someKey}
       </Text>
+      <Text>Plus Result: {plusResult}</Text>
       <Button title="simple return" onPress={nativeSimpleMethodReturns} />
       <Button
         title="simple return with params"
@@ -48,6 +57,8 @@ export default function App() {
         title="simple return with obj"
         onPress={nativeSimpleMethodWithObj}
       />
+
+      <Button title="present calendar" onPress={handleCalendar} />
     </View>
   );
 }

@@ -43,4 +43,7 @@ export function simpleMethodWithObj(
   return NativeModulesPractice.simpleMethodWithObj(params, callback);
 }
 
+export const presentCalendar = async () => {
+  return NativeModulesPractice.presentCalendar({ hello: 'world' });
+};
 export const someKey = NativeModulesPractice.someKey;

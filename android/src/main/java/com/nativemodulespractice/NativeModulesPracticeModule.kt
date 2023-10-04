@@ -19,6 +19,11 @@ class NativeModulesPracticeModule(reactContext: ReactApplicationContext) :
     promise.resolve(a * b)
   }
 
+  @ReactMethod
+  fun plus(a: Double, b: Double, promise: Promise) {
+    promise.resolve(a + b)
+  }
+
   companion object {
     const val NAME = "NativeModulesPractice"
   }
