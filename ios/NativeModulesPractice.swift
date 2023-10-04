@@ -56,12 +56,32 @@ class NativeModulesPractice: NSObject {
         resolver resolve: RCTPromiseResolveBlock,
         rejecter reject:RCTPromiseRejectBlock
     ) -> Void {
+        //"2023-10-06T06:45:00.000Z"
         DispatchQueue.main.async {
-            let event = Event(title: "HelloWorld", startDate: "2023-10-06T06:45:00.000Z", endDate: "2023-10-06T08:45:00.000Z")
+            let event = Event(
+                title: RCTConvert.nsString(config["title"]) ?? "",
+                startDate: RCTConvert.nsString(config["startDate"]) ?? "" ,
+                endDate: RCTConvert.nsString(config["endDate"]) ?? "",
+                location: RCTConvert.nsString(config["location"]) ?? nil,
+                isAllDay: RCTConvert.bool(config["isAllDay"]),
+                notes: RCTConvert.nsString(config["notes"]) ?? nil,
+                url: RCTConvert.nsString(config["url"]) ?? nil
+            )
             self.eventCalendarManager.addEventToCalendar(event: event)
         }
 
     }
+
+    @objc func checkAndRequestCalendarAccessIfPossible(
+        _ resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject:@escaping RCTPromiseRejectBlock
+    ) -> Void {
+        self.eventCalendarManager.checkAndRequestCalendarAccessIfPossible(resolver: resolve, rejecter: reject)
+    }
+
+
+
+
 
     @objc func constantsToExport() -> [String: Any]! {
         return ["someKey": "someValue"]

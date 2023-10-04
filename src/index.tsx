@@ -44,6 +44,18 @@ export function simpleMethodWithObj(
 }
 
 export const presentCalendar = async () => {
-  return NativeModulesPractice.presentCalendar({ hello: 'world' });
+  return NativeModulesPractice.presentCalendar({
+    title: 'WWDC23 Keynote',
+    startDate: '2023-10-06T06:45:00.000Z',
+    endDate: '2023-10-06T08:45:00.000Z',
+    isAllDay: false,
+    location: '1 Apple Park Way, Cupertino, CA, United States',
+    notes: 'Kick off an exhilarating week of technology and community.',
+  });
 };
+
+export const checkAndRequestCalendarAccessIfPossible = async () => {
+  return NativeModulesPractice.checkAndRequestCalendarAccessIfPossible();
+};
+
 export const someKey = NativeModulesPractice.someKey;

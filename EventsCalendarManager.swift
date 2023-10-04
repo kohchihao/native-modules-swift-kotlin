@@ -19,23 +19,56 @@ class EventsCalendarManager: NSObject {
     }
 
     // Request access to the Calendar
-    private func requestAccess(completion: @escaping EKEventStoreRequestAccessCompletionHandler) {
-        eventStore.requestAccess(to: .event) { (accessGranted, error) in
-            completion(accessGranted, error)
+    private func requestCalendarAccess(
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
+    ) {
+        if #unavailable(iOS 17) {
+            eventStore.requestAccess(to: .event) { (accessGranted, error) in
+                if (accessGranted) {
+                    resolve(accessGranted)
+                } else {
+                    resolve(accessGranted)
+                }
+            }
         }
     }
 
     // Get Calendar auth status
-    private func getAuthorizationStatus() -> EKAuthorizationStatus {
+    private func getCalendarAuthorizationStatus() -> EKAuthorizationStatus {
         return EKEventStore.authorizationStatus(for: .event)
     }
 
+    func checkAndRequestCalendarAccessIfPossible(
+        resolver resolve: @escaping RCTPromiseResolveBlock,
+        rejecter reject: @escaping RCTPromiseRejectBlock
+    ) {
+        let status = getCalendarAuthorizationStatus();
+        print("status",status.rawValue);
+        switch status {
+        case .authorized, .fullAccess, .writeOnly:
+            print("auth full write")
+            resolve(true)
+            break
+        case .denied, .restricted:
+            print("denied restricted")
+            resolve(false)
+            break
+
+        case .notDetermined:
+            print("not determined")
+            requestCalendarAccess(resolver: resolve, rejecter: reject)
+            break
+
+        @unknown default:
+            resolve(false)
+        }
+    }
+
+    // Add event to Calendar
     func addEventToCalendar(event: Event) {
-        // deal with non-ios17 cases
-        
-        // ios17 case
         let ekEvent = generateEvent(event: event)
-        
+
         let controller = EKEventEditViewController()
         controller.eventStore = eventStore
         controller.event = ekEvent
@@ -44,6 +77,7 @@ class EventsCalendarManager: NSObject {
         viewController?.present(controller, animated: true)
     }
 
+    // Generate the event
     private func generateEvent(event: Event) -> EKEvent {
         let ekEvent = EKEvent(eventStore: eventStore)
         ekEvent.title = event.title

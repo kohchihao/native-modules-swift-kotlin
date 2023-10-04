@@ -28,6 +28,10 @@ RCT_EXTERN_METHOD(presentCalendar: (NSDictionary<NSString *, id> *)config
                   resolver: (RCTPromiseResolveBlock) resolve
                   rejecter: (RCTPromiseRejectBlock) reject)
 
+RCT_EXTERN_METHOD(checkAndRequestCalendarAccessIfPossible: (RCTPromiseResolveBlock) resolve
+                  rejecter: (RCTPromiseRejectBlock) reject)
+
+
 + (BOOL)requiresMainQueueSetup
 {
     return NO;

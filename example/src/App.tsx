@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Button, StyleSheet, Text, View } from 'react-native';
 import {
+  checkAndRequestCalendarAccessIfPossible,
   multiply,
   plus,
   presentCalendar,
@@ -42,6 +43,11 @@ export default function App() {
     presentCalendar();
   };
 
+  const handleReqAccess = async () => {
+    const hasPerm = await checkAndRequestCalendarAccessIfPossible();
+    console.log('perm', hasPerm);
+  };
+
   return (
     <View style={styles.container}>
       <Text>
@@ -59,6 +65,7 @@ export default function App() {
       />
 
       <Button title="present calendar" onPress={handleCalendar} />
+      <Button title="check and req calendar" onPress={handleReqAccess} />
     </View>
   );
 }
